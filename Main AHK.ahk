@@ -28,12 +28,20 @@ IsMouseOverTaskbar() {
 
 XButton1:: {
     if (IsMouseOverTaskbar()) {
+        ; Switch to previous desktop when over taskbar
         Send('^#{Left}')
+    } else {
+        ; Alt+Tab when not over taskbar
+        Send('!{Tab}')
     }
 }
 
 XButton2:: {
     if (IsMouseOverTaskbar()) {
+        ; Switch to next desktop when over taskbar
         Send('^#{Right}')
+    } else {
+        ; Win+Tab when not over taskbar
+        Send('#{Tab}')
     }
 }
