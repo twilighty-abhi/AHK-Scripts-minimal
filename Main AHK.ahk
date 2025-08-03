@@ -26,22 +26,16 @@ IsMouseOverTaskbar() {
     return false
 }
 
-XButton1:: {
-    if (IsMouseOverTaskbar()) {
-        ; Switch to previous desktop when over taskbar
-        Send('^#{Left}')
-    } else {
-        ; Alt+Tab when not over taskbar
-        Send('!{Tab}')
-    }
-}
+; --- Context-sensitive hotkeys (when mouse is over the taskbar) ---
+#HotIf IsMouseOverTaskbar()
 
-XButton2:: {
-    if (IsMouseOverTaskbar()) {
-        ; Switch to next desktop when over taskbar
-        Send('^#{Right}')
-    } else {
-        ; Win+Tab when not over taskbar
-        Send('#{Tab}')
-    }
-}
+XButton1::Send('^#{Left}')  ; Previous desktop
+XButton2::Send('^#{Right}') ; Next desktop
+MButton::Send('{Media_Play_Pause}') ; Play/Pause media
+
+; --- General hotkeys (when mouse is NOT over the taskbar) ---
+#HotIf ; Turn off context-sensitivity
+
+XButton1::Send('!{Tab}') ; Alt+Tab
+XButton2::Send('#{Tab}')  ; Win+Tab
+
