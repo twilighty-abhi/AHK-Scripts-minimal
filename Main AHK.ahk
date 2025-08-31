@@ -94,6 +94,64 @@ MoveCursorToNextMonitor() {
     MouseMove(CenterX, CenterY, 0)
 }
 
+; Function to search highlighted text
+SearchHighlightedText() {
+    ; Store current clipboard content
+    OldClipboard := ClipboardAll()
+    
+    ; Clear clipboard
+    A_Clipboard := ""
+    
+    ; Copy selected text
+    Send("^c")
+    
+    ; Wait for clipboard to contain text (with timeout)
+    if (!ClipWait(0.5)) {
+        ; No text was selected, restore clipboard and exit
+        A_Clipboard := OldClipboard
+        return
+    }
+    
+    ; Get the selected text
+    SelectedText := A_Clipboard
+    
+    ; Restore original clipboard
+    A_Clipboard := OldClipboard
+    
+    ; Clean up the text for URL encoding
+    SelectedText := Trim(SelectedText)
+    
+    ; If text is empty or too long, don't search
+    if (SelectedText = "" || StrLen(SelectedText) > 500) {
+        return
+    }
+    
+    ; URL encode the search text
+    SearchQuery := UrlEncode(SelectedText)
+    
+    ; Create Google search URL
+    SearchURL := "https://www.google.com/search?q=" . SearchQuery
+    
+    ; Open the search in default browser
+    Run(SearchURL)
+}
+
+; Function to URL encode text
+UrlEncode(str) {
+    encoded := ""
+    Loop Parse, str {
+        char := A_LoopField
+        ; Keep alphanumeric characters and some safe characters
+        if (char ~= "[A-Za-z0-9\-_.~]") {
+            encoded .= char
+        } else {
+            ; Convert to hex encoding
+            encoded .= "%" . Format("{:02X}", Ord(char))
+        }
+    }
+    return encoded
+}
+
 ; Show initial notification
 TrayTip("Caps Lock Manager", "Caps Lock is disabled. Right-click tray icon to toggle. Press Caps Lock to switch monitors.", 4)
 
@@ -138,4 +196,7 @@ MButton::Send('{Media_Play_Pause}') ; Play/Pause media
 
 XButton1::Send('!{Tab}') ; Alt+Tab
 XButton2::Send('#{Tab}')  ; Win+Tab
+
+; --- Search Highlighted Text ---
+^+s::SearchHighlightedText()  ; Ctrl+Shift+S to search selected text
 
