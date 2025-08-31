@@ -50,8 +50,52 @@ ExitApp(*) {
     ExitApp()
 }
 
+; Function to move cursor to next monitor
+MoveCursorToNextMonitor() {
+    ; Get current mouse position
+    MouseGetPos(&CurrentX, &CurrentY)
+    
+    ; Get monitor count using a more reliable method
+    MonitorCount := SysGet(80)  ; SM_CMONITORS
+    
+    if (MonitorCount <= 1) {
+        ; Single monitor - move to center of current monitor
+        MonitorGet(1, &Left, &Top, &Right, &Bottom)
+        CenterX := Left + ((Right - Left) // 2)
+        CenterY := Top + ((Bottom - Top) // 2)
+        MouseMove(CenterX, CenterY, 0)
+        return
+    }
+    
+    ; Find which monitor the cursor is currently on
+    CurrentMonitor := 1  ; Default to first monitor
+    
+    ; Check each monitor to find current one
+    Loop MonitorCount {
+        MonitorGet(A_Index, &Left, &Top, &Right, &Bottom)
+        ; Check if cursor is within this monitor's bounds
+        if (CurrentX >= Left && CurrentX < Right && CurrentY >= Top && CurrentY < Bottom) {
+            CurrentMonitor := A_Index
+            break
+        }
+    }
+    
+    ; Calculate next monitor (cycle through all monitors)
+    NextMonitor := (CurrentMonitor >= MonitorCount) ? 1 : CurrentMonitor + 1
+    
+    ; Get the exact bounds of the target monitor
+    MonitorGet(NextMonitor, &TargetLeft, &TargetTop, &TargetRight, &TargetBottom)
+    
+    ; Calculate the absolute center of the target monitor
+    CenterX := TargetLeft + ((TargetRight - TargetLeft) // 2)
+    CenterY := TargetTop + ((TargetBottom - TargetTop) // 2)
+    
+    ; Move cursor instantly to the exact center
+    MouseMove(CenterX, CenterY, 0)
+}
+
 ; Show initial notification
-TrayTip("Caps Lock Manager", "Caps Lock is disabled. Right-click tray icon to toggle.", 3)
+TrayTip("Caps Lock Manager", "Caps Lock is disabled. Right-click tray icon to toggle. Press Caps Lock to switch monitors.", 4)
 
 ; Function to check if mouse is over taskbar
 IsMouseOverTaskbar() {
@@ -74,9 +118,9 @@ IsMouseOverTaskbar() {
 }
 
 ; --- Caps Lock Key Remapping ---
-; Disable Caps Lock when CapsLockDisabled is true
+; When Caps Lock is disabled, use it to move cursor between monitors
 #HotIf CapsLockDisabled
-CapsLock::return  ; Do nothing when Caps Lock is pressed
+CapsLock::MoveCursorToNextMonitor()  ; Move cursor to next monitor when Caps Lock is pressed
 
 ; Re-enable Caps Lock when CapsLockDisabled is false
 #HotIf !CapsLockDisabled
