@@ -152,6 +152,28 @@ UrlEncode(str) {
     return encoded
 }
 
+; Function to open WhatsApp
+OpenWhatsApp() {
+    ; Try to find and activate existing WhatsApp window
+    if (WinExist("ahk_exe WhatsApp.exe")) {
+        WinActivate()
+        WinRestore()
+        return
+    }
+    
+    ; If WhatsApp is not running, try to launch it
+    ; Use the specific shortcut path
+    ShortcutPath := A_ScriptDir . "\WhatsApp - Shortcut.lnk"
+    
+    if (FileExist(ShortcutPath)) {
+        Run(ShortcutPath)
+        return
+    }
+    
+    ; If shortcut not found, try to open WhatsApp Web as fallback
+    Run("https://web.whatsapp.com")
+}
+
 ; Show initial notification
 TrayTip("Caps Lock Manager", "Caps Lock is disabled. Right-click tray icon to toggle. Press Caps Lock to switch monitors.", 4)
 
@@ -199,4 +221,7 @@ XButton2::Send('#{Tab}')  ; Win+Tab
 
 ; --- Search Highlighted Text ---
 ^+s::SearchHighlightedText()  ; Ctrl+Shift+S to search selected text
+
+; --- Quick App Launcher ---
+!w::OpenWhatsApp()  ; Alt+W to open WhatsApp
 
