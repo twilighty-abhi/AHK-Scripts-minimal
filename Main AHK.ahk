@@ -174,6 +174,28 @@ OpenWhatsApp() {
     Run("https://web.whatsapp.com")
 }
 
+; Function to open Notion
+OpenNotion() {
+    ; Try to find and activate existing Notion window
+    if (WinExist("ahk_exe Notion.exe")) {
+        WinActivate()
+        WinRestore()
+        return
+    }
+    
+    ; If Notion is not running, try to launch it
+    ; Use the specific shortcut path
+    ShortcutPath := A_ScriptDir . "\Notion - Shortcut.lnk"
+    
+    if (FileExist(ShortcutPath)) {
+        Run(ShortcutPath)
+        return
+    }
+    
+    ; If shortcut not found, try to open Notion Web as fallback
+    Run("https://www.notion.so")
+}
+
 ; Show initial notification
 TrayTip("Caps Lock Manager", "Caps Lock is disabled. Right-click tray icon to toggle. Press Caps Lock to switch monitors.", 4)
 
@@ -224,4 +246,5 @@ XButton2::Send('#{Tab}')  ; Win+Tab
 
 ; --- Quick App Launcher ---
 !w::OpenWhatsApp()  ; Alt+W to open WhatsApp
+!n::OpenNotion()    ; Alt+N to open Notion
 
