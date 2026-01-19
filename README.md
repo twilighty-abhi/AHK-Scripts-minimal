@@ -22,6 +22,8 @@ A comprehensive AutoHotkey v2 script that enhances Windows productivity with mon
 - **XButton1** (Mouse Back Button): Switch to previous virtual desktop
 - **XButton2** (Mouse Forward Button): Switch to next virtual desktop
 - **Middle Mouse Button**: Play/Pause media
+- **Scroll Wheel Up**: Increase system volume
+- **Scroll Wheel Down**: Decrease system volume
 
 #### **Elsewhere:**
 - **XButton1** (Mouse Back Button): Alt+Tab (switch between windows)
@@ -37,29 +39,63 @@ A comprehensive AutoHotkey v2 script that enhances Windows productivity with mon
   - Handles special characters properly
 
 ### 5. **Quick App Launcher**
+Multiple productivity apps can be opened/toggled with a single keystroke:
+
+#### **WhatsApp**
 - **Hotkey**: `Alt + W`
-- **Function**: Opens WhatsApp desktop app
-- **Features**:
-  - Activates existing WhatsApp window if running
-  - Launches from shortcut if not running
-  - Fallback to WhatsApp Web if needed
+- **Function**: Opens/toggles WhatsApp desktop app
+
+#### **Notion**
+- **Hotkey**: `Alt + N`
+- **Function**: Opens/toggles Notion desktop app
+
+#### **TickTick**
+- **Hotkey**: `Alt + T`
+- **Function**: Opens/toggles TickTick task manager
+
+#### **Microsoft Edge**
+- **Hotkey**: `Alt + X`
+- **Function**: Opens/activates Microsoft Edge browser
+
+#### **Firefox**
+- **Hotkey**: `Alt + C`
+- **Function**: Opens/activates Firefox browser
+
+#### **Google Keep**
+- **Hotkey**: `Alt + K`
+- **Function**: Opens Google Keep with a new note in Edge
+
+**Features**:
+  - Toggles window (minimize if active, activate if running, launch if not)
+  - Launches from shortcuts in script directory
+  - Fallback to web versions when needed
 
 ## 📋 Commands Reference
 
 | Hotkey | Function | Description |
 |---------|----------|-------------|
-| `Caps Lock` | Monitor Switch | Move cursor to next monitor center |
-| `Ctrl + Shift + S` | Text Search | Search highlighted text on Google |
-| `Alt + W` | WhatsApp | Open/activate WhatsApp app |
+| `Caps Lock` | Monitor Switchtoggle WhatsApp app |
+| `Alt + N` | Notion | Open/toggle Notion app |
+| `Alt + T` | TickTick | Open/toggle TickTick app |
+| `Alt + X` | Edge Browser | Open/toggle Microsoft Edge |
+| `Alt + C` | Firefox Browser | Open/toggle Firefox |
+| `Alt + K` | Google Keep | Open new note in Google Keep |
 | `XButton1` (Taskbar) | Previous Desktop | Switch to previous virtual desktop |
+| `XButton2` (Taskbar) | Next Desktop | Switch to next virtual desktop |
+| `MButton` (Taskbar) | Media Control | Play/Pause media |
+| `Wheel Up` (Taskbar) | Volume Up | Increase system volume |
+| `Wheel Down` (Taskbar) | Volume Down | Decrease system volumeevious virtual desktop |
 | `XButton2` (Taskbar) | Next Desktop | Switch to next virtual desktop |
 | `MButton` (Taskbar) | Media Control | Play/Pause media |
 | `XButton1` (Elsewhere) | Window Switch | Alt+Tab between windows |
 | `XButton2` (Elsewhere) | Task View | Win+Tab (Task View) |
-
+App Launcher**: Instantly access productivity apps (WhatsApp, Notion, TickTick) with Alt hotkeys
+5. **Browser Management**: Toggle between Edge and Firefox with Alt+X and Alt+C
+6. **Quick Notes**: Capture ideas instantly with Alt+K (Google Keep)
 ## 🎯 Use Cases
 
-### **Productivity Workflow**
+### Volume Control**: Adjust volume with scroll wheel over taskbar
+- ****Productivity Workflow**
 1. **Multi-Monitor Setup**: Use Caps Lock to quickly switch between monitors
 2. **Virtual Desktops**: Navigate between work and personal spaces efficiently
 3. **Quick Research**: Highlight text and search instantly with Ctrl+Shift+S
@@ -93,11 +129,14 @@ A comprehensive AutoHotkey v2 script that enhances Windows productivity with mon
 
 ## 🔧 Installation & Usage
 
-### **Requirements**
+##Optional: App shortcuts in script directory (WhatsApp, Notion, TickTick) for enhanced functionality
 - Windows 10/11
 - AutoHotkey v2 installed
 - WhatsApp shortcut in script directory (for WhatsApp feature)
-
+(Optional) Add shortcuts for apps you want to launch:
+   - `WhatsApp - Shortcut.lnk`
+   - `Notion - Shortcut.lnk`
+   - `TickTick.lnk`
 ### **Setup**
 1. Place `Main AHK.ahk` in your desired directory
 2. Ensure `WhatsApp - Shortcut.lnk` is in the same directory
@@ -108,16 +147,19 @@ A comprehensive AutoHotkey v2 script that enhances Windows productivity with mon
 - **Start**: Double-click `Main AHK.ahk`
 - **Stop**: Right-click tray icon → Exit
 - **Auto-start**: Add script to Windows startup folder
-
-## 📁 File Structure
-```
+      # Main AutoHotkey script
+├── WhatsApp - Shortcut.lnk     # WhatsApp shortcut (optional)
+├── Notion - Shortcut.lnk       # Notion shortcut (optional)
+├── TickTick.lnk                # TickTick shortcut (optional)
+└── README.md     
 Scripts/
 ├── Main AHK.ahk          # Main AutoHotkey script
 ├── WhatsApp - Shortcut.lnk # WhatsApp shortcut (required)
 └── README.md              # This documentation
 ```
-
-## 🐛 Troubleshooting
+Apps not opening**: Verify shortcut files exist in script directory (or script will use web fallback)
+- **Hotkeys not responding**: Check if other software is blocking hotkeys
+- **Volume control not working**: Ensure mouse is over taskbar when scrolling
 
 ### **Common Issues**
 - **Caps Lock not working**: Check if script is running (tray icon visible)
@@ -145,8 +187,8 @@ Scripts/
 ## 📞 Support
 
 For issues or feature requests:
-1. Check this README for common solutions
-2. Verify all requirements are met
+1. Check this2.0  
+**Last Updated**: January 19, 2026s are met
 3. Test with minimal script modifications
 
 ---
