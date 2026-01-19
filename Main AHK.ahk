@@ -154,10 +154,16 @@ UrlEncode(str) {
 
 ; Function to open WhatsApp
 OpenWhatsApp() {
+    ; Check if WhatsApp window is active
+    if (WinActive("ahk_exe WhatsApp.exe")) {
+        WinMinimize()
+        return
+    }
+    
     ; Try to find and activate existing WhatsApp window
     if (WinExist("ahk_exe WhatsApp.exe")) {
-        WinActivate()
         WinRestore()
+        WinActivate()
         return
     }
     
@@ -176,10 +182,16 @@ OpenWhatsApp() {
 
 ; Function to open Notion
 OpenNotion() {
+    ; Check if Notion window is active
+    if (WinActive("ahk_exe Notion.exe")) {
+        WinMinimize()
+        return
+    }
+    
     ; Try to find and activate existing Notion window
     if (WinExist("ahk_exe Notion.exe")) {
-        WinActivate()
         WinRestore()
+        WinActivate()
         return
     }
     
@@ -194,6 +206,78 @@ OpenNotion() {
     
     ; If shortcut not found, try to open Notion Web as fallback
     Run("https://www.notion.so")
+}
+
+; Function to open TickTick
+OpenTickTick() {
+    ; Check if TickTick window is active
+    if (WinActive("ahk_exe TickTick.exe")) {
+        WinMinimize()
+        return
+    }
+    
+    ; Try to find and activate existing TickTick window
+    if (WinExist("ahk_exe TickTick.exe")) {
+        WinRestore()
+        WinActivate()
+        return
+    }
+    
+    ; If TickTick is not running, try to launch it
+    ; Use the specific shortcut path
+    ShortcutPath := "C:\Users\abhir\OneDrive\Documents\Scripts\TickTick.lnk"
+    
+    if (FileExist(ShortcutPath)) {
+        Run(ShortcutPath)
+        return
+    }
+    
+    ; If shortcut not found, try to open TickTick Web as fallback
+    Run("https://ticktick.com")
+}
+
+; Function to open Edge
+OpenEdge() {
+    ; Check if Edge window is active
+    if (WinActive("ahk_exe msedge.exe")) {
+        WinMinimize()
+        return
+    }
+    
+    ; Try to find and activate existing Edge window
+    if (WinExist("ahk_exe msedge.exe")) {
+        WinRestore()
+        WinActivate()
+        return
+    }
+    
+    ; If Edge is not running, launch it
+    Run("msedge.exe")
+}
+
+; Function to open Firefox
+OpenFirefox() {
+    ; Check if Firefox window is active
+    if (WinActive("ahk_exe firefox.exe")) {
+        WinMinimize()
+        return
+    }
+    
+    ; Try to find and activate existing Firefox window
+    if (WinExist("ahk_exe firefox.exe")) {
+        WinRestore()
+        WinActivate()
+        return
+    }
+    
+    ; If Firefox is not running, launch it
+    Run("firefox.exe")
+}
+
+; Function to open Google Keep in Edge (new note)
+OpenGoogleKeep() {
+    ; Open Google Keep with new note in Edge
+    Run("msedge.exe https://keep.google.com/u/0/#NOTE/new")
 }
 
 ; Show initial notification
@@ -218,7 +302,8 @@ IsMouseOverTaskbar() {
     
     return false
 }
-
+;------------------------------------------------------------------------------------------------------------------------------------------
+;------------------------------------------------------------------------------------------------------------------------------------------
 ; --- Caps Lock Key Remapping ---
 ; When Caps Lock is disabled, use it to move cursor between monitors
 #HotIf CapsLockDisabled
@@ -234,6 +319,8 @@ CapsLock::MoveCursorToNextMonitor()  ; Move cursor to next monitor when Caps Loc
 XButton1::Send('^#{Left}')  ; Previous desktop
 XButton2::Send('^#{Right}') ; Next desktop
 MButton::Send('{Media_Play_Pause}') ; Play/Pause media
+WheelUp::Send('{Volume_Up}')  ; Increase volume with system UI
+WheelDown::Send('{Volume_Down}')  ; Decrease volume with system UI
 
 ; --- General hotkeys (when mouse is NOT over the taskbar) ---
 #HotIf ; Turn off context-sensitivity
@@ -247,4 +334,8 @@ XButton2::Send('#{Tab}')  ; Win+Tab
 ; --- Quick App Launcher ---
 !w::OpenWhatsApp()  ; Alt+W to open WhatsApp
 !n::OpenNotion()    ; Alt+N to open Notion
+!t::OpenTickTick()  ; Alt+T to open TickTick
+!x::OpenEdge()      ; Alt+X to open Edge
+!c::OpenFirefox()   ; Alt+C to open Firefox
+!k::OpenGoogleKeep()  ; Alt+K to open Google Keep (new note in Edge)
 
